@@ -1,0 +1,150 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enum to define user roles
+enum UserRole {
+  ADMIN
+  STUDENT
+}
+
+// User model representing both admins and students
+model User {
+  id               String           @id @default(uuid())
+  name             String
+  email            String           @unique
+  password         String
+  role             UserRole         @default(STUDENT)
+  coursesCreated   Course[]         @relation("InstructorCourses")
+  enrollments      Enrollment[]
+  reviews          Review[]
+  completedClasses CompletedClass[]
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+}
+
+// Course model representing online courses
+model Course {
+  id            String       @id @default(uuid())
+  title         String
+  description   String
+  language      String
+  instructor    User         @relation("InstructorCourses", fields: [instructorId], references: [id])
+  instructorId  String
+  price         Float
+  discount      Float
+  originalPrice Float
+  modules       Module[]
+  enrollments   Enrollment[]
+  reviews       Review[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+// Module model representing modules within a course
+model Module {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  moduleOrder String
+  releaseDate DateTime
+  published   Boolean  @default(false)
+  course      Course   @relation(fields: [courseId], references: [id])
+  courseId    String
+  classes     Class[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([courseId, moduleOrder])
+  @@index([releaseDate])
+}
+
+// Class model representing individual classes within a module
+model Class {
+  id               String           @id @default(uuid())
+  title            String
+  description      String
+  meetLink         String
+  classOrder       String
+  releaseDate      DateTime
+  published        Boolean          @default(false)
+  module           Module           @relation(fields: [moduleId], references: [id])
+  moduleId         String
+  completedClasses CompletedClass[]
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  @@unique([moduleId, classOrder])
+  @@index([releaseDate])
+}
+
+// Enrollment model representing user enrollments in courses
+model Enrollment {
+  id String @id @default(uuid())
+
+  user             User             @relation(fields: [userId], references: [id])
+  userId           String
+  course           Course           @relation(fields: [courseId], references: [id])
+  courseId         String
+  enrolledAt       DateTime         @default(now())
+  progress         Float            @default(0) // Progress as a percentage (0-100)
+  completedClasses CompletedClass[]
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+}
+
+// Review model representing user reviews for courses
+model Review {
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  course      Course   @relation(fields: [courseId], references: [id])
+  courseId    String
+  rating      Int // e.g., 1-5
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+}
+
+// CompletedClass model representing classes completed by users
+model CompletedClass {
+  id           String      @id @default(uuid())
+  user         User        @relation(fields: [userId], references: [id])
+  userId       String
+  class        Class       @relation(fields: [classId], references: [id])
+  classId      String
+  completedAt  DateTime    @default(now())
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  Enrollment   Enrollment? @relation(fields: [enrollmentId], references: [id])
+  enrollmentId String?
+
+  @@unique([userId, classId])
+  @@index([userId])
+  @@index([classId])
+}
+
+model Announcement {
+  id          String @id @default(uuid())
+  title       String
+  description String
+}
