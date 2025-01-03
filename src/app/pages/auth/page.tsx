@@ -62,25 +62,26 @@ export default function Auth() {
       });
 
       const data = await res.json();
+      console.log(data)
       if (!res.ok) {
         setError(data.message || "Something went wrong");
         setLoading(false)
       } else {
 
         // Automatically log in the user after registration
-        const loginRes = await signIn("credentials", {
-          redirect: false,
-          email: formData.email,
-          password: formData.password,
-        });
+        // const loginRes = await signIn("credentials", {
+        //   redirect: false,
+        //   email: formData.email,
+        //   password: formData.password,
+        // });
 
-        if (loginRes?.error) {
-          setError(loginRes.error);
-          setLoading(false)
-        } else {
-          setLoading(false)
-          router.push("/"); // Redirect to a protected page
-        }
+        // if (loginRes?.error) {
+        //   setError(loginRes.error);
+        //   setLoading(false)
+        // } else {
+        //   setLoading(false)
+        //   router.push("/"); // Redirect to a protected page
+        // }
       }
     } catch (err) {
       console.error("Registration error:", err);

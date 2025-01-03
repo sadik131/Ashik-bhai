@@ -1,12 +1,16 @@
-import Navigation from "./components/Navigation";
-import Announcement from "./pages/announcement/page";
+import Projects from "./components/layout/Projects";
+import Service from "./components/layout/Service";
+import Slider from "./components/layout/Slider";
+import Teams from "./components/layout/Team";
 
 export default function page() {
- 
+
   return (
     <>
-     <Navigation />
-      <Announcement />
+      <Slider />
+      <Service />
+      <Teams />
+      <Projects />
     </>
   );
 }

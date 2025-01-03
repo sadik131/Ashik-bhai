@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import ReduxProvider from "./Hook/ReduxProvider";
 import AuthProvider from "./Hook/AuthProvider";
 import { Toaster } from "react-hot-toast";
+import NavHead from "./components/NavHead";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,6 +37,7 @@ export default function RootLayout({
         <ReduxProvider>
           <AuthProvider>
             <Toaster />
+            <NavHead />
             <Navbar />
            
             {children}

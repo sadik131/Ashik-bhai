@@ -11,7 +11,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch<AppDispatch>()
   
   useEffect(()=>{
-    dispatch(fetchAnnouncementAsync())
+    // dispatch(fetchAnnouncementAsync())
   },[])
 
   return (

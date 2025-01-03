@@ -1,9 +1,9 @@
 import React from 'react'
-import { CourseProp } from '../..'
 import Image from 'next/image'
 import Link from 'next/link'
+import { ServiceProp } from '@/app'
 
-function CourseCard({ imgSrc, title, rating, bookType, price, detail, enrol }: CourseProp) {
+function ServiceCard({ imgSrc, title, rating, text}: ServiceProp) {
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-2xl bg-white">
       <div className='relative h-60 w-full'>
@@ -33,19 +33,11 @@ function CourseCard({ imgSrc, title, rating, bookType, price, detail, enrol }: C
         </div>
 
         <p className="text-gray-700  text-base mb-2">
-          Type: <span className='font-bold'>{bookType}</span>
+          {text}
         </p>
-
-        <div className='flex items-center justify-between'>
-          <p className="text-green-500 text-xl font-semibold">
-            ₹{price}
-          </p>
-          {enrol && <Link className='btn' href="/pages/enroll">Enroll Now</Link>}
-          {detail && <Link className='btn' href="/pages/detail">detail</Link>}
-        </div>
       </div>
     </div>
   )
 }
 
-export default CourseCard
+export default ServiceCard

@@ -1,6 +1,5 @@
 "use client"
 import React, { useState } from 'react'
-import { ModalProp } from "@/app";
 import Input from '../Input';
 import { CldUploadWidget } from 'next-cloudinary'
 import Image from 'next/image';
