@@ -8,18 +8,13 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      container: {
-        center: true,
-        padding: {
-          DEFAULT: "0px", // Apply 0 padding for all screen sizes by default
-          sm: "0px",
-          md: "0px",
-          lg: "0px",
-          xl: "0px",
-          "2xl": "0px",
-        },
-        screens: {
-          lg: "1366px", // Custom width for large screens
+      animation: {
+        marquee: "marquee 15s linear infinite",
+      },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-100%)" },
         },
       },
       colors: {

@@ -31,17 +31,3 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-// // Review model representing user reviews for courses
-// model Review {
-//   id       String    @id @default(auto()) @map("_id") @db.ObjectId
-//   user        User     @relation(fields: [userId], references: [id])
-//   userId      String @db.ObjectId
-//   rating      Int     @default(0)
-//   description String
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @updatedAt
-
-//   @@unique([userId])
-//   @@index([userId])
-//   @@index([rating])
-// }

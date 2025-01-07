@@ -3,7 +3,7 @@ import ServiceCard from '../service/ServiceCard'
 
 function Service() {
   return (
-    <div className='mx-auto max-w-[1200px] px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 padding'>
+    <div className='mx-auto max-w-7xl px-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 padding'>
         <ServiceCard
         id="1"
         imgSrc="/ai.jpg"

@@ -1,117 +1,143 @@
-"use client";
+"use client"
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import UserIcon from "./layout/UserIcon";
-import { useDispatch, useSelector } from "react-redux";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { AppDispatch, RootState } from "../redux/store";
-import { UserData } from "..";
+import { useDispatch, useSelector } from "react-redux";
 import { signOut, useSession } from "next-auth/react";
+import { UserData } from "..";
+import UserIcon from "./layout/UserIcon";
+import { fetchuserAsync } from "../redux/user/userSlice";
 
-function Navbar() {
+const Navbar = () => {
+
+  const menuLinks = [
+    { name: "Home", href: "/" },
+    { name: "About", href: "/pages/about" },
+    { name: "Gallery", href: "/pages/contact" },
+    { name: "Services", href: "/pages/courses" },
+    { name: "Blog", href: "/pages/blog" },
+    { name: "FAQ", href: "/pages/faq" },
+  ];
+
   const dispatch = useDispatch<AppDispatch>();
   const { data } = useSession();
   const user = useSelector<RootState>((state) => state.user.currentUser) as UserData;
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  console.log(user)
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   useEffect(() => {
     if (data?.user?.email) {
-      // dispatch(fetchuserAsync({ email: data?.user?.email }))
+      dispatch(fetchuserAsync({ email: data?.user?.email }))
     }
   }, [data?.user?.email]);
 
   return (
     <div className="bg-blue-500">
-      <div className="container mx-auto max-w-[1200px] flex items-center justify-between py-4 px-6">
+      <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-6">
         {/* Logo */}
         <Link href="/" className="text-xl font-bold text-white">
           Logo
         </Link>
 
-        {/* Hamburger Menu for Small Screens */}
-        <button
-          className="text-white md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
-
-        {/* Menu Links */}
-        <div
-          className={`absolute top-[84px] z-10 left-0 w-full bg-blue-500 md:static md:flex md:w-auto md:items-center md:gap-4 transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-          } overflow-hidden`}
-        >
-          {/* Links */}
-          <Link href="/" className="block px-4 py-2 text-white hover:bg-blue-600">
-            Home
-          </Link>
-          <Link href="/pages/about" className="block px-4 py-2 text-white hover:bg-blue-600">
-            About
-          </Link>
-          <Link href="/pages/contact" className="block px-4 py-2 text-white hover:bg-blue-600">
-            Gallery
-          </Link>
-          <Link href="/pages/courses" className="block px-4 py-2 text-white hover:bg-blue-600">
-            Services
-          </Link>
-          <Link href="/pages/blog" className="block px-4 py-2 text-white hover:bg-blue-600">
-            Blog
-          </Link>
-          <Link href="/pages/faq" className="block px-4 py-2 text-white hover:bg-blue-600">
-            FAQ
-          </Link>
-
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center space-x-6">
+          {menuLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="text-white hover:bg-blue-600 px-4 py-2 rounded-md transition"
+            >
+              {link.name}
+            </Link>
+          ))}
           {/* Login/Logout */}
           {user ? (
             <button
               onClick={() => signOut()}
-              className="block px-4 py-2 bg-blue-700 text-white rounded-lg font-medium hover:bg-blue-800 transition"
+              className="bg-blue-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition"
             >
               Logout
             </button>
           ) : (
             <Link
               href="/pages/auth"
-              className="block px-4 py-2 bg-blue-700 text-white rounded-lg font-medium hover:bg-blue-800 transition"
+              className="bg-blue-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition"
             >
               Login
             </Link>
           )}
-
-          {/* Admin Page */}
+          {/* Admin Link */}
           {user && user.role === "ADMIN" && (
             <Link
               href="/pages/admin/users"
-              className="block px-4 py-2 bg-blue-700 text-white rounded-lg font-medium hover:bg-blue-800 transition"
+              className="bg-blue-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition"
             >
               Admin
             </Link>
           )}
-
           {/* User Icon */}
-          {user && (
-            <div className="block px-4 py-2">
-              <UserIcon />
-            </div>
+          {user && <UserIcon />}
+        </div>
+
+        {/* Hamburger Menu */}
+        <button
+          className="text-white md:hidden"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle Menu"
+          aria-expanded={isMenuOpen}
+        >
+          <GiHamburgerMenu size={24} />
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden bg-blue-500 transition-all duration-300 ease-in-out ${isMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+          } overflow-hidden`}
+      >
+        <div className="flex flex-col space-y-2 px-6 py-4">
+          {menuLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="text-white hover:bg-blue-600 px-4 py-2 rounded-md transition"
+            >
+              {link.name}
+            </Link>
+          ))}
+          {/* Login/Logout */}
+          {user ? (
+            <button
+              onClick={() => signOut()}
+              className="bg-blue-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              href="/pages/auth"
+              className="bg-blue-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition"
+            >
+              Login
+            </Link>
           )}
+          {/* Admin Link */}
+          {user && user.role === "ADMIN" && (
+            <Link
+              href="/pages/admin/users"
+              className="bg-blue-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition"
+            >
+              Admin
+            </Link>
+          )}
+          {/* User Icon */}
+          {user && <UserIcon />}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Navbar;

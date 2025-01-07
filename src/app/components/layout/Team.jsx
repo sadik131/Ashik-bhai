@@ -3,7 +3,7 @@ import React from 'react'
 
 function TeamMember() {
     return (
-        <div className='bg-slate-300 sm:py-10 lg:py-20'>
+        <div className='max-w-7xl mx-auto sm:py-10 lg:py-20'>
             {/* heading */}
             <div className="text-center">
                 <h1 className="sm:text-3xl lg:text-4xl font-bold text-blue-500">Our Team</h1>
@@ -11,20 +11,29 @@ function TeamMember() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 sm:mt-5 mt-10">
                 {/* team members */}
-                <div className="bg-white shadow-md rounded-lg overflow-hidden">
-                    <div className="relative h-52">
-                        <Image
-                            src="/shimu.jpg"
-                            alt="Brent Grundy"
-                            layout="fill"
-                            objectFit="cover"
-                        />
-                    </div>
-                    <div className="bg-blue-500 p-4 text-center">
-                        <h3 className="text-white text-lg font-semibold">Brent Grundy</h3>
-                        <p className="text-white text-sm">Founder</p>
+                <div className="group bg-white border shadow-md rounded-lg text-center py-10 px-5 relative overflow-hidden">
+                    {/* Background Image */}
+                    <div className="absolute inset-0 bg-center bg-cover bg-no-repeat opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        style={{ backgroundImage: "url('/bg.jpg')" }}></div>
+
+                    {/* Card Content */}
+                    <div className="relative z-10">
+                        <div className="relative mx-auto w-48 h-48 mb-4 rounded-full">
+                            <Image
+                                src="/shimu.jpg"
+                                alt="Brent Grundy"
+                                className="rounded-full object-cover"
+                                fill
+                            />
+                        </div>
+                        <div>
+                            <h3 className="text-gray-800 group-hover:text-white text-lg font-semibold mb-2">Brent Grundy</h3>
+                            <p className="text-green-500 group-hover:text-white text-sm font-medium uppercase">Founder</p>
+                        </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
     )

@@ -6,7 +6,7 @@ import { MdOutlineEmail } from 'react-icons/md'
 function NavHead() {
   return (
     <main className='bg-surface'>
-      <div className='container mx-auto max-w-[1200px] flex py-2 justify-between'>
+      <div className='max-w-7xl flex py-2 justify-between'>
       {/* left  */}
       <div className='flex items-center gap-4'>
         {/* contract  */}

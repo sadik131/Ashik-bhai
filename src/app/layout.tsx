@@ -8,6 +8,12 @@ import AuthProvider from "./Hook/AuthProvider";
 import { Toaster } from "react-hot-toast";
 import NavHead from "./components/NavHead";
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
