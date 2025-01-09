@@ -28,18 +28,18 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                         </Link>
                     </li>
                     <li>
-                        <Link className={`${router === '/pages/admin/courses' ? 'text-blue-500' : ''}`} href="/pages/admin/courses">
-                            Courses
+                        <Link className={`${router === '/pages/admin/testimonial' ? 'text-blue-500' : ''}`} href="/pages/admin/testimonial">
+                        Testimonial
                         </Link>
                     </li>
                     <li>
-                        <Link className={`${router === '/pages/admin/enrollments' ? 'text-blue-500' : ''}`} href="/pages/admin/enrollments">
-                            Enrollments
+                        <Link className={`${router === '/pages/admin/service' ? 'text-blue-500' : ''}`} href="/pages/admin/service">
+                            Service
                         </Link>
                     </li>
                     <li>
-                        <Link className={`${router === '/pages/admin/announcement' ? 'text-blue-500' : ''}`} href="/pages/admin/announcement">
-                            Announcement
+                        <Link className={`${router === '/pages/admin/member' ? 'text-blue-500' : ''}`} href="/pages/admin/member">
+                            Our member
                         </Link>
                     </li>
                 </ul>

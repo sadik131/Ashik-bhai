@@ -2,6 +2,13 @@ import Image from 'next/image'
 import React from 'react'
 
 function TeamMember() {
+
+    const members = [
+        { _id: 1, img: "/shimu.jpg", name: "Brent Grundy", role: "Founder" },
+        { _id: 1, img: "/shimu.jpg", name: "Brent Grundy", role: "Member" },
+        { _id: 1, img: "/shimu.jpg", name: "Brent Grundy", role: "Member" }
+    ]
+
     return (
         <div className='max-w-7xl mx-auto sm:py-10 lg:py-20'>
             {/* heading */}
@@ -11,27 +18,32 @@ function TeamMember() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 sm:mt-5 mt-10">
                 {/* team members */}
-                <div className="group bg-white border shadow-md rounded-lg text-center py-10 px-5 relative overflow-hidden">
-                    {/* Background Image */}
-                    <div className="absolute inset-0 bg-center bg-cover bg-no-repeat opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        style={{ backgroundImage: "url('/bg.jpg')" }}></div>
+                {
+                    members.map(member => (
+                        <div key={member._id} className="group bg-white border shadow-md rounded-lg text-center py-10 px-5 relative overflow-hidden">
+                            {/* Background Image */}
+                            <div className="absolute inset-0 bg-center bg-cover bg-no-repeat opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                style={{ backgroundImage: "url('/bg.jpg')" }}></div>
 
-                    {/* Card Content */}
-                    <div className="relative z-10">
-                        <div className="relative mx-auto w-48 h-48 mb-4 rounded-full">
-                            <Image
-                                src="/shimu.jpg"
-                                alt="Brent Grundy"
-                                className="rounded-full object-cover"
-                                fill
-                            />
+                            {/* Card Content */}
+                            <div className="relative z-10">
+                                <div className="relative mx-auto w-48 h-48 mb-4 rounded-full">
+                                    <Image
+                                        src={member.img}
+                                        alt={member.name}
+                                        className="rounded-full object-cover"
+                                        fill
+                                    />
+                                </div>
+                                <div>
+                                    <h3 className="text-gray-800 group-hover:text-white text-lg font-semibold mb-2">{member.name}</h3>
+                                    <p className="text-green-500 group-hover:text-white text-sm font-medium uppercase">{member.role}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h3 className="text-gray-800 group-hover:text-white text-lg font-semibold mb-2">Brent Grundy</h3>
-                            <p className="text-green-500 group-hover:text-white text-sm font-medium uppercase">Founder</p>
-                        </div>
-                    </div>
-                </div>
+                    ))
+                }
+
 
 
             </div>

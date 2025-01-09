@@ -69,14 +69,14 @@ const Navbar = () => {
             </Link>
           )}
           {/* Admin Link */}
-          {user && user.role === "ADMIN" && (
+          {/* {user && user.role === "ADMIN" && ( */}
             <Link
               href="/pages/admin/users"
               className="bg-blue-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition"
             >
               Admin
             </Link>
-          )}
+          {/* )} */}
           {/* User Icon */}
           {user && <UserIcon />}
         </div>
