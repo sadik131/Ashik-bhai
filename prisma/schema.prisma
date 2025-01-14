@@ -31,3 +31,18 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+model TeamMember {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  img  String
+  name String
+  role String
+}
+
+model Testimonial {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  image   String
+  name    String
+  role    String
+  text    String
+  rating  Float
+}

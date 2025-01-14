@@ -1,8 +1,9 @@
 "use client"
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { ServiceData } from '@/app';
 
-function ServiceCard({ id, imgSrc, title, rating, text }: { id: string, imgSrc: string, title: string, rating: number, text: string }) {
+function ServiceCard({ id, imgSrc, title, rating, text }: ServiceData) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {

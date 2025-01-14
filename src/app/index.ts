@@ -6,6 +6,8 @@ type SliderItem = {
   description: string;
 };
 
+// testimonial
+
 export interface CreateTestimonial {
   image: string;
   name: string;
@@ -18,15 +20,16 @@ export interface TestimonialProp extends CreateTestimonial {
   _id: string
 }
 
+// our service 
+export interface ServiceData extends CreateServiceData {
+  _id: string
+}
+
 export interface CreateServiceData {
   imgSrc: string,
   title: string
   rating?: number,
   text: string
-}
-
-export interface ServiceData extends CreateServiceData {
-  _id: string
 }
 
 // Define the props for the Slider component
@@ -36,14 +39,7 @@ export type SliderProps = {
   testimonial?: TestimonialProp[]
 };
 
-export interface ServiceProp {
-  id: string;
-  title: string;
-  rating?: number;
-  text: string;
-  imgSrc: string
-}
-
+// use data
 export interface UserData {
   id: string;
   name: string;
@@ -60,19 +56,14 @@ export interface UserData {
   profileImage?: string;
 }
 
-export interface CreateCourse {
-  title: string;
-  description: string;
-  language: string;
-  instructor?: string;
-  instructorId: string;
-  price: number;
-  discount: number;
-  originalPrice: number;
+
+export interface CreateTeamMemberProp {
+  img: string;
+  name: string;
+  role: string;
 }
 
-// export interface AnnouncementData {
-//   id?: string
-//   title: string
-//   description: string
-// }
+// Our team member
+export interface TeamMemberProp extends CreateTeamMemberProp {
+  id: string;
+}

@@ -2,11 +2,6 @@
 
 import React, { useState } from "react";
 import AdminLayout from "../page";
-import {
-    createAnnouncementAsync,
-    deleteAnnouncementAsync,
-    updateAnnouncementAsyncAsync,
-} from "@/app/redux/announcement/announcementSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/redux/store";
 import Loading from "@/app/components/loading";
@@ -36,7 +31,7 @@ const Services = () => {
             text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum aut reiciendis, illum praesentium consequuntur in."
         },
     ]
-    const status = useSelector<RootState>((state) => state.announcement.status);
+    // const status = useSelector<RootState>((state) => state.announcement.status);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
@@ -76,15 +71,15 @@ const Services = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (isEditMode) {
-            dispatch(updateAnnouncementAsyncAsync({ update: currentService, id: currentService._id }));
+            // dispatch(updateAnnouncementAsyncAsync({ update: currentService, id: currentService._id }));
         } else {
-            dispatch(createAnnouncementAsync(currentService));
+            // dispatch(createAnnouncementAsync(currentService));
         }
         setIsModalOpen(false);
     };
 
     const handleDelete = (id: string) => {
-        dispatch(deleteAnnouncementAsync({ id }));
+        // dispatch(deleteAnnouncementAsync({ id }));
     };
 
     return (

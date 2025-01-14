@@ -3,9 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const result = await prisma.course.findMany({
-            include: { instructor: true }
-        })
+        const result = await prisma.testimonial.findMany({})
         return NextResponse.json(result)
     } catch (error) {
         return NextResponse.json(error)
@@ -15,19 +13,19 @@ export async function GET() {
 export async function POST(req: NextRequest) {
     try {
         const data = await req.json()
-        const result = await prisma.course.create({
+        console.log(data)
+        const result = await prisma.testimonial.create({
             data: {
-                description: data.description,
-                language: data.language,
-                price: data.price,
-                title: data.title,
-                discount: data.discount,
-                instructorId: data.instructorId,
-                
+                image:data.image,
+                name:data.name,
+                rating:data.rating,
+                role:data.role,
+                text:data.text
             }
         })
         return NextResponse.json(result)
     } catch (error) {
+        console.log(error)
         return NextResponse.json(error)
     }
 }

@@ -6,18 +6,22 @@ function Experience() {
         {
             subject: "Engineering Studies",
             percentage: 90,
+            color:"bg-pink-500"
         },
         {
             subject: "Business Studies",
             percentage: 70,
+            color:"bg-yellow-500"
         },
         {
             subject: "English Studies",
             percentage: 80,
+            color:"bg-blue-500"
         },
         {
             subject: "Science Studies",
             percentage: 60,
+            color:"bg-green-500"
         },
     ];
 
@@ -57,28 +61,28 @@ function Experience() {
 
             {/* Experience section */}
             <div className="flex flex-col items-center justify-center space-y-4 w-[90%] mx-auto">
-                <div className="flex w-full">
+                <div className="flex gap-10 w-full">
                     {/* Image container */}
                     <div className="h-[400px] w-[600px] relative">
                         <Image
                             className='object-cover'
-                            src="/bennerImg.webp"
+                            src="/AboutBanner.jpg"
                             alt="Experience Image"
                             fill
                         />
                     </div>
 
                     {/* Progress bars container */}
-                    <div className="flex flex-col items-center justify-center space-y-4">
+                    <div className="flex flex-col w-2/5 items-center justify-center space-y-4">
                         {data.map((item) => (
                             <div
                                 key={item.subject}
-                                className="flex items-center justify-between w-full"
+                                className="flex items-center text-center gap-5 justify-between w-full"
                             >
                                 <span className="text-lg font-medium">{item.subject}</span>
                                 <div className="w-full bg-gray-200 rounded-full h-2">
                                     <div
-                                        className="bg-blue-500 h-2 rounded-full"
+                                        className={`${item.color} h-2 rounded-full`}
                                         style={{ width: `${item.percentage}%` }}
                                     ></div>
                                 </div>

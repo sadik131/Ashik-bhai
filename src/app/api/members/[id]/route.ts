@@ -2,39 +2,23 @@ import { prisma } from "@/app/Hook/Prisma/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 
-// GET BY ID
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-    const { id } = params
-
-    try {
-        const result = await prisma.announcement.findFirst({
-            where: { id },
-            select: {
-                description: true,
-                title: true
-            }
-        })
-        return NextResponse.json(result)
-    } catch (error) {
-        return NextResponse.json(error)
-    }
-}
-
 // patch
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
     const { id } = params
-    const {update} = await req.json()
-   
+    const update = await req.json()
+    console.log(update, "id:", id)
     try {
-        const result = await prisma.announcement.update({
+        const result = await prisma.teamMember.update({
             where: { id },
             data: {
-                description: update.description,
-                title: update.title
+                img: update.img,
+                name: update.name,
+                role: update.role
             }
         })
         return NextResponse.json(result)
     } catch (error) {
+        console.log(error)
         return NextResponse.json(error)
     }
 }
@@ -43,9 +27,10 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     const { id } = params
 
     try {
-        const result = await prisma.announcement.delete({
+        const result = await prisma.teamMember.delete({
             where: { id },
         })
+        console.log(result, "id:", id)
         return NextResponse.json(result)
     } catch (error) {
         return NextResponse.json(error)

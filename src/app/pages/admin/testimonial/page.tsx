@@ -4,8 +4,14 @@ import { useEffect, useState } from "react";
 import AdminLayout from "../page";
 import { TestimonialProp } from "@/app";
 import { FaStar } from "react-icons/fa";
+import { CldUploadWidget } from "next-cloudinary";
+import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/redux/store";
+import { createTestimonialsAsync, fetchTestimonialstAsync } from "@/app/redux/testimonial/testimonialSlice";
 
 const Testimonial = () => {
+    const dispatch = useDispatch<AppDispatch>()
     const [testimonials, setTestimonials] = useState<TestimonialProp[]>([
         {
             _id: "1",
@@ -32,7 +38,8 @@ const Testimonial = () => {
             text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur corporis itaque error.",
         },
     ]);
-
+    const data = useSelector<RootState>(state=>state.testimonial.Testimonials)
+    console.log("data:",data)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [hover, setHover] = useState(0);
@@ -75,12 +82,14 @@ const Testimonial = () => {
         setIsModalOpen(true);
     };
 
+    // open modal
     const handleOpenEditModal = (testimonial: TestimonialProp) => {
         setIsEditMode(true);
         setCurrentTestimonial(testimonial);
         setIsModalOpen(true);
     };
 
+    // handle submit form
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (isEditMode) {
@@ -90,20 +99,23 @@ const Testimonial = () => {
                 )
             );
         } else {
-            setTestimonials((prev) => [
-                ...prev,
-                { ...currentTestimonial, _id: String(Date.now()) },
-            ]);
+            console.log(currentTestimonial)
+            dispatch(createTestimonialsAsync(currentTestimonial))
+            // setTestimonials((prev) => [
+            //     ...prev,
+            //     { ...currentTestimonial, _id: String(Date.now()) },
+            // ]);
         }
         setIsModalOpen(false);
     };
 
+    // handle delete
     const handleDelete = (id: string) => {
         setTestimonials((prev) => prev.filter((t) => t._id !== id));
     };
 
     useEffect(() => {
-        // Fetch testimonials here if needed
+        dispatch(fetchTestimonialstAsync())
     }, []);
 
     return (
@@ -172,16 +184,19 @@ const Testimonial = () => {
                                     required
                                 />
                             </div>
-                            <div className="mb-4">
-                                <label className="block mb-1">Image URL</label>
-                                <input
-                                    name="image"
-                                    value={currentTestimonial.image}
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 border rounded"
-                                    required
-                                />
-                            </div>
+                            <CldUploadWidget uploadPreset="gudsky" onSuccess={(result: any) => {
+                  const imageUrl = result?.info?.secure_url;
+                  setCurrentTestimonial((prev) => ({ ...prev, image: imageUrl }));
+                }}>
+                  {({ open }) => {
+                    return (
+                      <div onClick={() => open()} className='flex cursor-pointer items-center gap-2'>
+                        <Image src="/user.png" alt="image" height={100} width={100} />
+                        <span>Add Photo</span>
+                      </div>
+                    );
+                  }}
+                </CldUploadWidget>
                             <div className="mb-4">
                                 <label className="block mb-1">Role</label>
                                 <input

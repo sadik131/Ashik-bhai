@@ -1,31 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AdminLayout from "../page";
+import Image from "next/image";
+import { CldUploadWidget } from "next-cloudinary";
+import { TeamMemberProp } from "@/app";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/redux/store";
+import { createTeamMemberAsync, deleteTeamMemberAsync, fetchTeamMemberAsync, updateTeamMemberAsync } from "@/app/redux/member/memberSlice";
 
-interface TeamMemberProp {
-  _id: string;
-  img: string;
-  name: string;
-  role: string;
-}
+
 
 const TeamMember = () => {
-  const [teamMembers, setTeamMembers] = useState<TeamMemberProp[]>([
-    { _id: "1", img: "/shimu.jpg", name: "Brent Grundy", role: "Founder" },
-    { _id: "2", img: "/shimu.jpg", name: "Alice Johnson", role: "Member" },
-    { _id: "3", img: "/shimu.jpg", name: "Michael Lee", role: "Member" },
-  ]);
-
+  const dispatch = useDispatch<AppDispatch>()
+  const teamMembers = useSelector((state: RootState) => state.member.members) as TeamMemberProp[]
+console.log(teamMembers)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [img, setImg] = useState("")
   const [currentMember, setCurrentMember] = useState<TeamMemberProp>({
-    _id: "",
+    id: "",
     img: "",
     name: "",
     role: "",
   });
+  useEffect(() => {
+    dispatch(fetchTeamMemberAsync())
+  }, [dispatch])
 
+  // input change
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -33,35 +36,37 @@ const TeamMember = () => {
     setCurrentMember({ ...currentMember, [name]: value });
   };
 
+  // handle open modle
   const handleOpenCreateModal = () => {
     setIsEditMode(false);
-    setCurrentMember({ _id: "", img: "", name: "", role: "" });
+    setCurrentMember({ id: "", img: "", name: "", role: "" });
     setIsModalOpen(true);
   };
 
+  // andle edit modle
   const handleOpenEditModal = (member: TeamMemberProp) => {
     setIsEditMode(true);
+    console.log(member)
     setCurrentMember(member);
     setIsModalOpen(true);
   };
 
+  // handle delete modle
   const handleDelete = (id: string) => {
-    setTeamMembers((prev) => prev.filter((member) => member._id !== id));
+    dispatch(deleteTeamMemberAsync({ id }))
   };
 
+  // submit modle
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(currentMember, "team data")
     if (isEditMode) {
-      setTeamMembers((prev) =>
-        prev.map((member) =>
-          member._id === currentMember._id ? currentMember : member
-        )
-      );
+      // update state
+      console.log(currentMember.id,":id")
+      dispatch(updateTeamMemberAsync({ update: currentMember}))
     } else {
-      setTeamMembers((prev) => [
-        ...prev,
-        { ...currentMember, _id: String(Date.now()) },
-      ]);
+      // create a team member
+      dispatch(createTeamMemberAsync(currentMember))
     }
     setIsModalOpen(false);
   };
@@ -85,8 +90,8 @@ const TeamMember = () => {
           </tr>
         </thead>
         <tbody>
-          {teamMembers.map((member) => (
-            <tr key={member._id} className="border-b">
+          {teamMembers && teamMembers.map((member) => (
+            <tr key={member.id} className="border-b">
               <td className="px-4 py-2">
                 <img
                   src={member.img}
@@ -104,7 +109,7 @@ const TeamMember = () => {
                   Edit
                 </button>
                 <button
-                  onClick={() => handleDelete(member._id)}
+                  onClick={() => handleDelete(member.id)}
                   className="bg-red-500 text-white px-2 py-1 rounded"
                 >
                   Delete
@@ -133,14 +138,20 @@ const TeamMember = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block mb-1">Image URL</label>
-                <input
-                  name="img"
-                  value={currentMember.img}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded"
-                  required
-                />
+                <CldUploadWidget uploadPreset="gudsky" onSuccess={(result: any) => {
+                  const imageUrl = result?.info?.secure_url;
+                  setImg(imageUrl)
+                  setCurrentMember((prev) => ({ ...prev, img: imageUrl }));
+                }}>
+                  {({ open }) => {
+                    return (
+                      <div onClick={() => open()} className='flex cursor-pointer items-center gap-2'>
+                        <Image src={img ? img : "/user.png"} alt="image" height={100} width={100} />
+                        <span>Add Photo</span>
+                      </div>
+                    );
+                  }}
+                </CldUploadWidget>
               </div>
               <div className="mb-4">
                 <label className="block mb-1">Role</label>

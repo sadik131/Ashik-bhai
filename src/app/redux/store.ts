@@ -1,14 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterSlice from "./counter/counterSlice"
-import announcementSlice from "./announcement/announcementSlice"
-import courseSlice from "./course/courseSlice"
+import memberSlice from "./member/memberSlice"
+import testimonialSlice from "./testimonial/testimonialSlice"
 import userSlice from "./user/userSlice"
 
 export const store = configureStore({
     reducer: {
-        counter: counterSlice,
-        announcement: announcementSlice,
-        course: courseSlice,
+        member: memberSlice,
+        testimonial: testimonialSlice,
         user: userSlice,
     }
 })
