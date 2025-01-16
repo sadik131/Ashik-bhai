@@ -17,12 +17,12 @@ export interface CreateTestimonial {
 };
 
 export interface TestimonialProp extends CreateTestimonial {
-  _id: string
+  id: string
 }
 
 // our service 
 export interface ServiceData extends CreateServiceData {
-  _id: string
+  id: string
 }
 
 export interface CreateServiceData {

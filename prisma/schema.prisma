@@ -39,10 +39,18 @@ model TeamMember {
 }
 
 model Testimonial {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  image   String
-  name    String
-  role    String
-  text    String
-  rating  Float
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  image  String
+  name   String
+  role   String
+  text   String
+  rating Float
+}
+
+model Services {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  imgSrc String
+  title  String
+  rating Float?
+  text   String
 }

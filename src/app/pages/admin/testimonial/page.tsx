@@ -8,43 +8,16 @@ import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/redux/store";
-import { createTestimonialsAsync, fetchTestimonialstAsync } from "@/app/redux/testimonial/testimonialSlice";
+import { createTestimonialsAsync, deleteTestimonialsAsync, fetchTestimonialstAsync, updateTestimonialsAsync } from "@/app/redux/testimonial/testimonialSlice";
 
 const Testimonial = () => {
     const dispatch = useDispatch<AppDispatch>()
-    const [testimonials, setTestimonials] = useState<TestimonialProp[]>([
-        {
-            _id: "1",
-            image: "/01.png",
-            name: "Nattasha Mith",
-            role: "Senior Developer",
-            text: "“One of the best courses on management and leadership I have come across so far. The advice is practical, and examples highly relatable. Would help anyone become a better manager.”",
-            rating: 5,
-        },
-        {
-            _id: "2",
-            image: "/02.png",
-            name: "Mike Davis",
-            rating: 5,
-            role: "Senior Developer",
-            text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur corporis itaque error.",
-        },
-        {
-            _id: "3",
-            image: "/03.png",
-            name: "Olivia Wilson",
-            rating: 4,
-            role: "Senior Developer",
-            text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur corporis itaque error.",
-        },
-    ]);
-    const data = useSelector<RootState>(state=>state.testimonial.Testimonials)
-    console.log("data:",data)
+    const testimonials = useSelector<RootState>(state => state.testimonial.Testimonials) as TestimonialProp[]
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [hover, setHover] = useState(0);
     const [currentTestimonial, setCurrentTestimonial] = useState<TestimonialProp>({
-        _id: "",
+        id: "",
         name: "",
         image: "",
         rating: 0,
@@ -72,7 +45,7 @@ const Testimonial = () => {
     const handleOpenCreateModal = () => {
         setIsEditMode(false);
         setCurrentTestimonial({
-            _id: "",
+            id: "",
             name: "",
             image: "",
             rating: 0,
@@ -93,27 +66,20 @@ const Testimonial = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (isEditMode) {
-            setTestimonials((prev) =>
-                prev.map((t) =>
-                    t._id === currentTestimonial._id ? currentTestimonial : t
-                )
-            );
+            dispatch(updateTestimonialsAsync({ update: currentTestimonial }))
         } else {
-            console.log(currentTestimonial)
+            console.log(currentTestimonial, "current on home page")
             dispatch(createTestimonialsAsync(currentTestimonial))
-            // setTestimonials((prev) => [
-            //     ...prev,
-            //     { ...currentTestimonial, _id: String(Date.now()) },
-            // ]);
         }
         setIsModalOpen(false);
     };
-
+    
     // handle delete
     const handleDelete = (id: string) => {
-        setTestimonials((prev) => prev.filter((t) => t._id !== id));
+        dispatch(deleteTestimonialsAsync({ id }))
     };
 
+    // fetch all testimonials
     useEffect(() => {
         dispatch(fetchTestimonialstAsync())
     }, []);
@@ -138,7 +104,7 @@ const Testimonial = () => {
                 </thead>
                 <tbody>
                     {testimonials.map((testimonial) => (
-                        <tr key={testimonial._id} className="border-b">
+                        <tr key={testimonial.id} className="border-b">
                             <td className="px-4 py-2">
                                 <img
                                     src={testimonial.image}
@@ -156,7 +122,7 @@ const Testimonial = () => {
                                     Edit
                                 </button>
                                 <button
-                                    onClick={() => handleDelete(testimonial._id)}
+                                    onClick={() => handleDelete(testimonial.id)}
                                     className="bg-red-500 text-white px-2 py-1 rounded"
                                 >
                                     Delete
@@ -185,18 +151,19 @@ const Testimonial = () => {
                                 />
                             </div>
                             <CldUploadWidget uploadPreset="gudsky" onSuccess={(result: any) => {
-                  const imageUrl = result?.info?.secure_url;
-                  setCurrentTestimonial((prev) => ({ ...prev, image: imageUrl }));
-                }}>
-                  {({ open }) => {
-                    return (
-                      <div onClick={() => open()} className='flex cursor-pointer items-center gap-2'>
-                        <Image src="/user.png" alt="image" height={100} width={100} />
-                        <span>Add Photo</span>
-                      </div>
-                    );
-                  }}
-                </CldUploadWidget>
+                                const imageUrl = result?.info?.secure_url;
+                                console.log(imageUrl, "url")
+                                setCurrentTestimonial((prev) => ({ ...prev, image: imageUrl }));
+                            }}>
+                                {({ open }) => {
+                                    return (
+                                        <div onClick={() => open()} className='flex cursor-pointer items-center gap-2'>
+                                            <Image src={currentTestimonial ? currentTestimonial.image : "/user.png"} alt="image" height={100} width={100} />
+                                            <span>Add Photo</span>
+                                        </div>
+                                    );
+                                }}
+                            </CldUploadWidget>
                             <div className="mb-4">
                                 <label className="block mb-1">Role</label>
                                 <input
@@ -232,12 +199,11 @@ const Testimonial = () => {
                                                 }
                                             />
                                             <FaStar
-                                                className={`cursor-pointer transition-colors duration-200 ${
-                                                    ratingValue <=
-                                                    (hover || currentTestimonial.rating)
+                                                className={`cursor-pointer transition-colors duration-200 ${ratingValue <=
+                                                        (hover || currentTestimonial.rating)
                                                         ? "text-yellow-500"
                                                         : "text-gray-400"
-                                                }`}
+                                                    }`}
                                                 size={40}
                                                 onMouseEnter={() =>
                                                     setHover(ratingValue)

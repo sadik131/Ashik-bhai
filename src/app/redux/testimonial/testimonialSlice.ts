@@ -21,10 +21,10 @@ export const createTestimonialsAsync = createAsyncThunk<TestimonialProp, CreateT
 );
 
 // update testimonials
-export const updateTestimonialsAsync = createAsyncThunk<TestimonialProp, { update: TestimonialProp; id: string }>(
+export const updateTestimonialsAsync = createAsyncThunk<TestimonialProp, { update: TestimonialProp }>(
     "testimonial/updateApi",
-    async ({ update, id }): Promise<TestimonialProp> => {
-        const response = await updateApi({ update, id });
+    async (update): Promise<TestimonialProp> => {
+        const response = await updateApi(update);
         return response.data;
     }
 );
@@ -33,6 +33,7 @@ export const updateTestimonialsAsync = createAsyncThunk<TestimonialProp, { updat
 export const deleteTestimonialsAsync = createAsyncThunk<TestimonialProp, { id: string }>(
     "testimonial/deleteApi",
     async ({ id }): Promise<TestimonialProp> => {
+        console.log(id)
         const response = await deleteApi(id);
         return response.data;
     }
@@ -41,7 +42,7 @@ export const deleteTestimonialsAsync = createAsyncThunk<TestimonialProp, { id: s
 const testimoniallice = createSlice({
     name: "testimonial",
     initialState: {
-        Testimonials: [] as TestimonialProp[], 
+        Testimonials: [] as TestimonialProp[],
         // course: null as Course | null, 
         status: "idle" as "idle" | "loading" | "success" | "failed",
         error: null as string | null,
@@ -81,7 +82,7 @@ const testimoniallice = createSlice({
             })
             .addCase(updateTestimonialsAsync.fulfilled, (state, action) => {
                 state.status = 'success';
-                const index = state.Testimonials.findIndex(i => i._id === action.payload._id);
+                const index = state.Testimonials.findIndex(i => i.id === action.payload.id);
                 if (index !== -1) {
                     state.Testimonials[index] = action.payload;
                 }
@@ -90,14 +91,14 @@ const testimoniallice = createSlice({
                 state.status = 'failed';
                 state.error = action.error.message || "Failed to update course";
             })
-            
+
             // delete testimonial
             .addCase(deleteTestimonialsAsync.pending, (state) => {
                 state.status = 'loading';
             })
             .addCase(deleteTestimonialsAsync.fulfilled, (state, action) => {
                 state.status = 'success';
-                state.Testimonials = state.Testimonials.filter(del => del._id !== action.payload._id);
+                state.Testimonials = state.Testimonials.filter(del => del.id !== action.payload.id);
             })
             .addCase(deleteTestimonialsAsync.rejected, (state, action) => {
                 state.status = 'failed';

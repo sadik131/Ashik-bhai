@@ -1,43 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminLayout from "../page";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/redux/store";
 import Loading from "@/app/components/loading";
 import { ServiceData } from "@/app";
 import Image from "next/image";
+import { CldUploadWidget } from "next-cloudinary";
+import { createServicesAsync, deleteServicesAsync, fetchServicestAsync, updateServicesAsync } from "@/app/redux/service/servicesSlice";
 
 const Services = () => {
     const dispatch = useDispatch<AppDispatch>();
-    // const data = useSelector<RootState, ServiceData[]>((state) => state.announcement.announcements);
-    const data = [
-        {
-            _id: "1",
-            imgSrc: "/ai.jpg",
-            title: "Lorem, ipsum dolor.",
-            text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum aut reiciendis, illum praesentium consequuntur in."
-        },
-        {
-            _id: "3",
-            imgSrc: "/ai.jpg",
-            title: "Lorem, ipsum dolor.",
-            text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum aut reiciendis, illum praesentium consequuntur in."
-        },
-        {
-            _id: "2",
-            imgSrc: "/ai.jpg",
-            title: "Lorem, ipsum dolor.",
-            text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum aut reiciendis, illum praesentium consequuntur in."
-        },
-    ]
-    // const status = useSelector<RootState>((state) => state.announcement.status);
-
+    const data = useSelector<RootState>((state) => state.services.Services) as ServiceData[]
+    const status = useSelector<RootState>((state) => state.services.status) 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
     const [currentService, setCurrentService] = useState<ServiceData>({
-        _id: "",
-        imgSrc: "/ai.jpg",
+        id: "",
+        imgSrc: "",
         title: "",
         rating: 0,
         text: "",
@@ -52,14 +33,15 @@ const Services = () => {
 
     const handleOpenCreateModal = () => {
         setIsEditMode(false);
-        setCurrentService({ _id: "", imgSrc: "/ai.jpg", title: "", rating: 0, text: "" });
+        setCurrentService({ id: "", imgSrc: "", title: "", rating: 0, text: "" });
         setIsModalOpen(true);
     };
 
     const handleOpenEditModal = (service: ServiceData) => {
         setIsEditMode(true);
+        console.log(service)
         setCurrentService({
-            _id: service._id ?? "",
+            id: service.id ?? "",
             imgSrc: service.imgSrc,
             title: service.title,
             rating: service.rating,
@@ -71,16 +53,21 @@ const Services = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (isEditMode) {
-            // dispatch(updateAnnouncementAsyncAsync({ update: currentService, id: currentService._id }));
+            dispatch(updateServicesAsync({ update: currentService }));
         } else {
-            // dispatch(createAnnouncementAsync(currentService));
+            dispatch(createServicesAsync(currentService));
         }
         setIsModalOpen(false);
     };
 
     const handleDelete = (id: string) => {
-        // dispatch(deleteAnnouncementAsync({ id }));
+        dispatch(deleteServicesAsync({ id }));
     };
+    
+    // fetch all data
+    useEffect(()=>{
+        dispatch(fetchServicestAsync())
+    },[dispatch])
 
     return (
         <AdminLayout>
@@ -96,7 +83,7 @@ const Services = () => {
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {data.map((service) => (
-                        <div key={service._id} className="bg-white shadow-md rounded-md overflow-hidden">
+                        <div key={service.id} className="bg-white shadow-md rounded-md overflow-hidden">
                             <div className="relative h-48 w-full">
                                 <Image src={service.imgSrc} alt={service.title} fill className="object-cover" />
                             </div>
@@ -114,7 +101,7 @@ const Services = () => {
                                         Edit
                                     </button>
                                     <button
-                                        onClick={() => handleDelete(service._id)}
+                                        onClick={() => handleDelete(service.id)}
                                         className="bg-red-500 text-white px-2 py-1 rounded"
                                     >
                                         Delete
@@ -143,16 +130,20 @@ const Services = () => {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label htmlFor="imgSrc" className="block mb-1">Image URL</label>
-                                <input
-                                    id="imgSrc"
-                                    name="imgSrc"
-                                    type="text"
-                                    value={currentService.imgSrc}
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 border rounded"
-                                    required
-                                />
+                                <CldUploadWidget uploadPreset="gudsky" onSuccess={(result: any) => {
+                                    const imageUrl = result?.info?.secure_url;
+                                    console.log(imageUrl, "url")
+                                    setCurrentService((prev) => ({ ...prev, imgSrc: imageUrl }));
+                                }}>
+                                    {({ open }) => {
+                                        return (
+                                            <div onClick={() => open()} className='flex cursor-pointer items-center gap-2'>
+                                                <Image src={currentService ? currentService.imgSrc : "/user.png"} alt="image" height={100} width={100} />
+                                                <span>Add Photo</span>
+                                            </div>
+                                        );
+                                    }}
+                                </CldUploadWidget>
                             </div>
                             <div className="mb-4">
                                 <label htmlFor="rating" className="block mb-1">Rating</label>
