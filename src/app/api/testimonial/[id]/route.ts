@@ -6,7 +6,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
     const { id } = params
     const {update} = await req.json()
-   console.log(update,"id:",id)
     try {
         const result = await prisma.testimonial.update({
             where: { id },

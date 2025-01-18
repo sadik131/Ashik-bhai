@@ -12,7 +12,6 @@ export function getDatasApi(): Promise<{ data: ServiceData[] }> {
 // create course 
 export function createApi(doc: CreateServiceData): Promise<{ data: ServiceData }> {
     return new Promise(async (resolve) => {
-        console.log(doc, "in api")
         const responce = await fetch("/api/services", {
             method: "POST",
             headers: { "content-type": "application/json" },
@@ -25,7 +24,6 @@ export function createApi(doc: CreateServiceData): Promise<{ data: ServiceData }
 // update course
 export function updateApi({ update }: { update: ServiceData }): Promise<{ data: ServiceData }> {
     return new Promise(async (resolve) => {
-        console.log(update,"in api route")
         const responce = await fetch(`/api/services/${update.id}`, {
             method: "PATCH",
             headers: { "content-type": "application/json" },
@@ -38,7 +36,6 @@ export function updateApi({ update }: { update: ServiceData }): Promise<{ data: 
 // delete course
 export function deleteApi(id: string): Promise<{ data: ServiceData }> {
     return new Promise(async (resolve) => {
-        console.log(id)
         const responce = await fetch(`/api/services/${id}`, {
             method: "DELETE",
         })

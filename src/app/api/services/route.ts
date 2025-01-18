@@ -14,13 +14,11 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions)
-    console.log(session)
     // if (!session || session.token?.role !== "ADMIN") {
     //     return NextResponse.json({ message: "Unauthorized access" }, { status: 403 });
     // }
     try {
         const doc = await req.json()
-        console.log(doc,"<api")
         const result = await prisma.services.create({
             data: {
                 imgSrc:doc.imgSrc,
@@ -28,7 +26,6 @@ export async function POST(req: NextRequest) {
                 title:doc.title
             }
         })
-        console.log(result)
         return NextResponse.json(result)
     } catch (error) {
         return NextResponse.json(error)

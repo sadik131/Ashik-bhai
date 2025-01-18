@@ -37,7 +37,6 @@ export const updateTeamMemberAsync = createAsyncThunk<TeamMemberProp, { update: 
 export const deleteTeamMemberAsync = createAsyncThunk<TeamMemberProp, { id: string }>(
     "member/deleteApi",
     async ({ id }): Promise<TeamMemberProp> => {
-        console.log(id)
         const response = await deleteApi(id);
         return response.data;
     }

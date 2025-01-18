@@ -62,7 +62,6 @@ export default function Auth() {
       });
 
       const data = await res.json();
-      console.log(data)
       if (!res.ok) {
         setError(data.message || "Something went wrong");
         setLoading(false)

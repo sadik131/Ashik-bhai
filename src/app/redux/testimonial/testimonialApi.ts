@@ -12,7 +12,6 @@ export function getDatasApi(): Promise<{ data: TestimonialProp[] }> {
 // create course 
 export function createApi(doc: CreateTestimonial): Promise<{ data: TestimonialProp }> {
     return new Promise(async (resolve) => {
-        console.log(doc, "in api")
         const responce = await fetch("/api/testimonial", {
             method: "POST",
             headers: { "content-type": "application/json" },
@@ -25,7 +24,6 @@ export function createApi(doc: CreateTestimonial): Promise<{ data: TestimonialPr
 // update course
 export function updateApi({ update }: { update: TestimonialProp }): Promise<{ data: TestimonialProp }> {
     return new Promise(async (resolve) => {
-        console.log(update)
         const responce = await fetch(`/api/testimonial/${update.id}`, {
             method: "PATCH",
             headers: { "content-type": "application/json" },
@@ -38,7 +36,6 @@ export function updateApi({ update }: { update: TestimonialProp }): Promise<{ da
 // delete course
 export function deleteApi(id: string): Promise<{ data: TestimonialProp }> {
     return new Promise(async (resolve) => {
-        console.log(id)
         const responce = await fetch(`/api/testimonial/${id}`, {
             method: "DELETE",
         })

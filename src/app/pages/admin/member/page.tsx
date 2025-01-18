@@ -14,7 +14,6 @@ import { createTeamMemberAsync, deleteTeamMemberAsync, fetchTeamMemberAsync, upd
 const TeamMember = () => {
   const dispatch = useDispatch<AppDispatch>()
   const teamMembers = useSelector((state: RootState) => state.member.members) as TeamMemberProp[]
-console.log(teamMembers)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [img, setImg] = useState("")
@@ -46,7 +45,7 @@ console.log(teamMembers)
   // andle edit modle
   const handleOpenEditModal = (member: TeamMemberProp) => {
     setIsEditMode(true);
-    console.log(member)
+  
     setCurrentMember(member);
     setIsModalOpen(true);
   };
@@ -59,10 +58,10 @@ console.log(teamMembers)
   // submit modle
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(currentMember, "team data")
+  
     if (isEditMode) {
       // update state
-      console.log(currentMember.id,":id")
+    
       dispatch(updateTeamMemberAsync({ update: currentMember}))
     } else {
       // create a team member

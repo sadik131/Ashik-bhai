@@ -33,7 +33,6 @@ export const updateTestimonialsAsync = createAsyncThunk<TestimonialProp, { updat
 export const deleteTestimonialsAsync = createAsyncThunk<TestimonialProp, { id: string }>(
     "testimonial/deleteApi",
     async ({ id }): Promise<TestimonialProp> => {
-        console.log(id)
         const response = await deleteApi(id);
         return response.data;
     }

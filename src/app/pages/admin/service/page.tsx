@@ -39,7 +39,6 @@ const Services = () => {
 
     const handleOpenEditModal = (service: ServiceData) => {
         setIsEditMode(true);
-        console.log(service)
         setCurrentService({
             id: service.id ?? "",
             imgSrc: service.imgSrc,
@@ -132,7 +131,6 @@ const Services = () => {
                             <div className="mb-4">
                                 <CldUploadWidget uploadPreset="gudsky" onSuccess={(result: any) => {
                                     const imageUrl = result?.info?.secure_url;
-                                    console.log(imageUrl, "url")
                                     setCurrentService((prev) => ({ ...prev, imgSrc: imageUrl }));
                                 }}>
                                     {({ open }) => {

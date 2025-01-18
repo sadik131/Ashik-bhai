@@ -27,7 +27,6 @@ export async function POST(req: NextRequest) {
         },
       });
   
-      console.log(result);
       return NextResponse.json({ message: "Success", user: result });
     } catch (error) {
       console.error("Error:", error);

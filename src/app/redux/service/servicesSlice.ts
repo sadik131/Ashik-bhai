@@ -33,7 +33,6 @@ export const updateServicesAsync = createAsyncThunk<ServiceData, { update: Servi
 export const deleteServicesAsync = createAsyncThunk<ServiceData, { id: string }>(
     "services/deleteApi",
     async ({ id }): Promise<ServiceData> => {
-        console.log(id)
         const response = await deleteApi(id);
         return response.data;
     }

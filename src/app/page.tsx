@@ -1,4 +1,6 @@
 import OurPartners from "./components/layout/about/OurPartners";
+import Categories from "./components/layout/home/Categories";
+import MotiveBanner from "./components/layout/home/MotiveHero";
 import Projects from "./components/layout/Projects";
 import Service from "./components/layout/Service";
 import Slider from "./components/layout/Slider";
@@ -29,7 +31,7 @@ export default function page() {
   // testimonials
   const testimonials = [
     {
-      _id:"1",
+      id:"1",
       image: "/01.png",
       name: "Nattasha Mith",
       role: "Senior Developer",
@@ -37,7 +39,7 @@ export default function page() {
       rating: 5,
     },
     {
-      _id:"2",
+      id:"2",
       image: "/02.png",
       name: "Mike Davis",
       // location: "Greenville, USA",
@@ -46,7 +48,7 @@ export default function page() {
       text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur corporis itaque error.",
     },
     {
-      _id:"3",
+      id:"3",
       image: "/03.png",
       name: "Olivia Wilson",
       // location: "Greenville, USA",
@@ -60,6 +62,8 @@ export default function page() {
     <>
       <Slider slider={heroSlider} perView={1} />
       <Service />
+      <MotiveBanner />
+      <Categories />
       <Teams />
       <Projects />
       <TestimonialSection testimonial={testimonials} perView={1}/>

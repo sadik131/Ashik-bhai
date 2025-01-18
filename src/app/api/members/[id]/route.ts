@@ -6,7 +6,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
     const { id } = params
     const update = await req.json()
-    console.log(update, "id:", id)
     try {
         const result = await prisma.teamMember.update({
             where: { id },
@@ -18,7 +17,6 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
         })
         return NextResponse.json(result)
     } catch (error) {
-        console.log(error)
         return NextResponse.json(error)
     }
 }
@@ -30,7 +28,6 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
         const result = await prisma.teamMember.delete({
             where: { id },
         })
-        console.log(result, "id:", id)
         return NextResponse.json(result)
     } catch (error) {
         return NextResponse.json(error)

@@ -6,7 +6,7 @@ function Hero() {
     <div className="relative h-[500px] w-full">
       {/* Background Image */}
       <Image
-        src="/hero.webp" 
+        src="/aboutHero.webp" 
         alt="Hero Background"
         className="object-cover"
       fill

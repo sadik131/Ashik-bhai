@@ -16,7 +16,7 @@ function TeamMember() {
                 <h1 className="sm:text-3xl lg:text-4xl font-bold text-blue-500">Our Team</h1>
                 <p className='text-slate-700'>Meet with all our members</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 sm:mt-5 mt-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 sm:mt-5 mt-10 gap-10">
                 {/* team members */}
                 {
                     members.map(member => (
@@ -43,9 +43,6 @@ function TeamMember() {
                         </div>
                     ))
                 }
-
-
-
             </div>
         </div>
     )

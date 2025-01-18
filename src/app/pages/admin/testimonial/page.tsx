@@ -68,7 +68,6 @@ const Testimonial = () => {
         if (isEditMode) {
             dispatch(updateTestimonialsAsync({ update: currentTestimonial }))
         } else {
-            console.log(currentTestimonial, "current on home page")
             dispatch(createTestimonialsAsync(currentTestimonial))
         }
         setIsModalOpen(false);
@@ -152,7 +151,6 @@ const Testimonial = () => {
                             </div>
                             <CldUploadWidget uploadPreset="gudsky" onSuccess={(result: any) => {
                                 const imageUrl = result?.info?.secure_url;
-                                console.log(imageUrl, "url")
                                 setCurrentTestimonial((prev) => ({ ...prev, image: imageUrl }));
                             }}>
                                 {({ open }) => {

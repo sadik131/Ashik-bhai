@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 
 const Modal: React.FC<ModalProp> = ({ title, handleFormSubmit, onChange, formData, setIsModalOpen }) => {
-  console.log(formData)
+
   const [img,setImg] = useState<any>()
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

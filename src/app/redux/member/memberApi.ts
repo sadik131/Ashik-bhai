@@ -24,7 +24,6 @@ export function createApi(doc: CreateTeamMemberProp): Promise<{ data: TeamMember
 // update TeamMemberProp
 export function updateApi({ update }: { update: TeamMemberProp}): Promise<{ data: TeamMemberProp }> {
     return new Promise(async (resolve) => {
-        console.log(update,"redux")
         const responce = await fetch(`/api/members/${update.id}`, {
             method: "PATCH",
             headers: { "content-type": "application/json" },
