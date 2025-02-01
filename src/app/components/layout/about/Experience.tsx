@@ -59,38 +59,40 @@ function Experience() {
                 </div>
             </div>
 
-            {/* Experience section */}
-            <div className="flex flex-col items-center justify-center space-y-4 w-[90%] mx-auto">
-                <div className="flex gap-10 w-full">
+                {/* Experience section */}
+            <div className="-mt-24 pb-16 relative">
+            <div className="flex flex-col items-center justify-center space-y-4 max-w-7xl mx-auto">
+                <div className="flex w-full">
                     {/* Image container */}
-                    <div className="h-[400px] w-[600px] relative">
+                    <div className="h-[455px] w-[600px] relative">
                         <Image
-                            className='object-cover'
-                            src="/AboutBanner.jpg"
+                            className=''
+                            src="/AboutBanner.webp"
                             alt="Experience Image"
                             fill
                         />
                     </div>
 
                     {/* Progress bars container */}
-                    <div className="flex flex-col w-2/5 items-center justify-center space-y-4">
+                    <div className="flex flex-col w-[53%] items-center justify-center px-10 space-y-4 bg-indigo-950">
                         {data.map((item) => (
-                            <div
-                                key={item.subject}
-                                className="flex items-center text-center gap-5 justify-between w-full"
-                            >
-                                <span className="text-lg font-medium">{item.subject}</span>
+                            <div key={item.subject}
+                                className="text-center text-white gap-8 justify-between w-full">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-lg font-medium whitespace-nowrap">{item.subject}</span>
+                                    <span className="text-lg font-medium">{item.percentage}%</span>
+                                </div>
                                 <div className="w-full bg-gray-200 rounded-full h-2">
                                     <div
                                         className={`${item.color} h-2 rounded-full`}
                                         style={{ width: `${item.percentage}%` }}
                                     ></div>
                                 </div>
-                                <span className="text-lg font-medium">{item.percentage}%</span>
                             </div>
                         ))}
                     </div>
                 </div>
+            </div>
             </div>
         </>
     );

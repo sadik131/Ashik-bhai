@@ -14,7 +14,7 @@ function Hero() {
       
       {/* Text Overlay */}
       <div className="absolute inset-0 text-white bg-black bg-opacity-50 px-4">
-        <div className="max-w-7xl h-full mx-auto flex lg:items-start items-center flex-col justify-center">
+        <div className="max-w-6xl h-full mx-auto flex lg:items-start items-center flex-col justify-center">
         <h1 className="text-4xl font-bold lg:w-1/2 mb-4">
           WE ARE NUMBER ONE CONSULTATION FIRM
         </h1>

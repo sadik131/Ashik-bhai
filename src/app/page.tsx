@@ -31,7 +31,7 @@ export default function page() {
   // testimonials
   const testimonials = [
     {
-      id:"1",
+      id: "1",
       image: "/01.png",
       name: "Nattasha Mith",
       role: "Senior Developer",
@@ -39,7 +39,7 @@ export default function page() {
       rating: 5,
     },
     {
-      id:"2",
+      id: "2",
       image: "/02.png",
       name: "Mike Davis",
       // location: "Greenville, USA",
@@ -48,7 +48,7 @@ export default function page() {
       text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur corporis itaque error.",
     },
     {
-      id:"3",
+      id: "3",
       image: "/03.png",
       name: "Olivia Wilson",
       // location: "Greenville, USA",
@@ -58,15 +58,35 @@ export default function page() {
     },
   ];
 
+  const prop = [
+    {
+      bg: "",
+      title: "Popular Courses",
+      note: "Discover what people are learning"
+    },
+    {
+      bg: "bg-surface",
+      title: "New courses",
+      note: "Learn new skills, pursue your interests or advance your career with our short online courses"
+    },
+    {
+      bg: "",
+      title: "Recommended for you",
+      note: "Embrace Learning in Every Discovery"
+    }
+  ]
   return (
     <>
       <Slider slider={heroSlider} perView={1} />
-      <Service />
+      <Service bg={prop[0].bg} title={prop[0].title} note={prop[0].note}/>
       <MotiveBanner />
       <Categories />
-      <Teams />
+
+      <Service bg={prop[1].bg} title={prop[1].title} note={prop[1].note}/>
+      <Service  bg={prop[2].bg} title={prop[2].title} note={prop[2].note}/>
+
       <Projects />
-      <TestimonialSection testimonial={testimonials} perView={1}/>
+      <TestimonialSection testimonial={testimonials} perView={1} />
       <OurPartners />
       <SubscriptionSection />
     </>

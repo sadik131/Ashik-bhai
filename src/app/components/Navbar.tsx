@@ -21,21 +21,21 @@ const Navbar = () => {
   ];
 
   const dispatch = useDispatch<AppDispatch>();
-  const { data } = useSession();
+  const { data } = useSession() as { data: { user: { id?: string; name?: string | null; email?: string | null; image?: string | null } } | null };
   const user = useSelector<RootState>((state) => state.user.currentUser) as UserData;
 
-  console.log(user)
+  console.log(data, "session data")
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   useEffect(() => {
-    if (data?.user?.email) {
-      dispatch(fetchuserAsync({ email: data?.user?.email }))
+    if (data?.user?.id) {
+      dispatch(fetchuserAsync({ id: data?.user?.id }))
     }
-  }, [data?.user?.email]);
+  }, [data?.user?.id]);
 
   return (
     <div className="bg-blue-500">
-      <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-6">
+      <div className="max-w-xlmx-auto flex items-center justify-between py-4 px-6">
         {/* Logo */}
         <Link href="/" className="text-xl font-bold text-white">
           Logo
@@ -52,6 +52,17 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
+
+          {/* Admin Link */}
+          {user && user.role === "ADMIN" && (
+            <Link
+              href="/pages/admin/users"
+              className="bg-blue-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition"
+            >
+              Admin
+            </Link>
+          )}
+
           {/* Login/Logout */}
           {user ? (
             <button
@@ -68,15 +79,7 @@ const Navbar = () => {
               Login
             </Link>
           )}
-          {/* Admin Link */}
-          {/* {user && user.role === "ADMIN" && ( */}
-            <Link
-              href="/pages/admin/users"
-              className="bg-blue-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-800 transition"
-            >
-              Admin
-            </Link>
-          {/* )} */}
+
           {/* User Icon */}
           {user && <UserIcon />}
         </div>

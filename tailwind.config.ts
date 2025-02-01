@@ -19,7 +19,9 @@ const config: Config = {
       },
       colors: {
         primary: "#34bf49",
-        surface: "#F3F4F4",
+        heading:"#121212",
+        color:"#666666",
+        surface: "#F2F2F2",
       },
     },
   },

@@ -15,7 +15,7 @@ function Categories() {
     ];
 
     return (
-        <div className='container mx-auto max-w-7xl py-20'>
+        <div className='container mx-auto max-w-6xl'>
             {/* heading */}
             <h1 className='text-4xl font-bold mb-10'>Top Categories</h1>
             {/* categories */}

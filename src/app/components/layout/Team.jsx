@@ -10,7 +10,7 @@ function TeamMember() {
     ]
 
     return (
-        <div className='max-w-7xl mx-auto sm:py-10 lg:py-20'>
+        <div className='max-w-6xl mx-auto sm:py-10 lg:py-20'>
             {/* heading */}
             <div className="text-center">
                 <h1 className="sm:text-3xl lg:text-4xl font-bold text-blue-500">Our Team</h1>
@@ -21,6 +21,7 @@ function TeamMember() {
                 {
                     members.map(member => (
                         <div key={member._id} className="group bg-white border shadow-md rounded-lg text-center py-10 px-5 relative overflow-hidden">
+                             
                             {/* Background Image */}
                             <div className="absolute inset-0 bg-center bg-cover bg-no-repeat opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                 style={{ backgroundImage: "url('/bg.jpg')" }}></div>

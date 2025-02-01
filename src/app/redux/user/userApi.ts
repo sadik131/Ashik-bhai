@@ -10,12 +10,12 @@ export function getAllUserInfo(): Promise<{ data: UserData[] }> {
 }
 
 // get cureent user 
-export function getUserInfo(email: string): Promise<{ data: UserData }> {
+export function getUserInfo(id: string): Promise<{ data: UserData }> {
     return new Promise(async (resolve) => {
         const responce = await fetch("/api/user/currentUser", {
             method: "POST",
             headers: { "content-type": "application/json" },
-            body: JSON.stringify({ email })
+            body: JSON.stringify({ id })
         })
         const data: UserData = await responce.json()
         resolve({ data })

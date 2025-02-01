@@ -11,10 +11,10 @@ export const fetchAllUserAsync = createAsyncThunk<UserData[]>(
     }
 );
 // find user with id
-export const fetchuserAsync = createAsyncThunk<UserData, { email: string }>(
+export const fetchuserAsync = createAsyncThunk<UserData, { id: string }>(
     "user/getuserApi",
-    async ({ email }): Promise<UserData> => {
-        const response = await getUserInfo(email);
+    async ({ id }): Promise<UserData> => {
+        const response = await getUserInfo(id);
         return response.data;
     }
 );
